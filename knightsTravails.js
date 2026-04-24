@@ -1,16 +1,24 @@
 #!/usr/bin/env node
 
 function knightMoves(start = [0, 0], end = [7, 7]) {
-    let queue = [start]; 
+    if (start[0] === end[0] && start[1] === end[1]) {
+        return [start]
+    };
+    let queue = [start];
     const noRepeatvertex = [start];
-    let count = 0;
     while (true) {
-        count += 1;
         let newQueue = [];
         for (const i of queue) {
             const eachMoveArr = eachMove(i, end);
             if (eachMoveArr[0] === end[0] && eachMoveArr[1] === end[1]) {
-                return console.log(`Succeed! count: ${count}`)
+                const previousMove = knightMoves(start, i);
+                let printPath = [];
+                for (const k of previousMove) {
+                    printPath.push(k);
+                };
+                printPath.push(end);
+                return printPath
+                
             };
             for (const i of eachMoveArr) {
                 const exists = noRepeatvertex.some(arr => arr[0] === i[0] && arr[1] === i[1]);
@@ -31,14 +39,14 @@ function knightMoves(start = [0, 0], end = [7, 7]) {
             const y = vertex[1] + i[1];
             if (0 <= x && x <= 7 && 0 <= y && y <= 7) {
                 if (x === end[0] && y === end[1]) {
-                    return [x,y]
+                    return [x, y]
                 };
                 newVertex.push([x, y])
             }
         }
         return newVertex
     }
-
 }
 
-knightMoves()
+const printMoves = knightMoves([0,1], [4,2]);
+console.log(printMoves)
