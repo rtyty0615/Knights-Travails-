@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-function knightMoves(start = [0, 0], end = [0,0]) {
+function knightMoves(start = [0, 0], end = [7,7]) {
     if (start[0] === end[0] && start[1] === end[1]) {
         return [start]
     };
@@ -10,26 +10,23 @@ function knightMoves(start = [0, 0], end = [0,0]) {
             this.path = path;
         }
     };
+    const noRepeatvertex = new Set();
     const pair = new Move(start, [start]);
     let queue = [pair];
-    const noRepeatvertex = [start];
     while (true) {
         let newQueue = [];
         for (const i of queue) {
             const eachMoveArr = eachMove(i.current);
             for (const j of eachMoveArr) {
-                
-                const exists = noRepeatvertex.some(item =>
-                    JSON.stringify(item.current) === JSON.stringify(j)
-                );
-                if (exists === false) {
+                const str = j[0] + "," + j[1];
+                if (!noRepeatvertex.has(str)) {
                     const updatePath = [...i.path];
                     const pair = new Move(j, updatePath);
                     pair.path.push(j);
-                    noRepeatvertex.push(pair);
-                    newQueue.push(pair)
+                    noRepeatvertex.add(str);
+                    newQueue.push(pair);
                     if (j[0] === end[0] && j[1] === end[1]) {
-                        return pair
+                        return pair.path
                     };
                 };
             }
