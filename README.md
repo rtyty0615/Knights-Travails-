@@ -24,12 +24,14 @@ Performance
 
 Usage
 
-To see the knight in action, call the function with a start and end coordinate:
-JavaScript
+    To see the knight in action, call the function with a start and end coordinate:
+    JavaScript
 
-knightMoves([0,0], [3,3]);
-// Output:
-// => You made it in 2 moves! Here's your path:
-// [0,0]
-// [2,1]
-// [3,3]
+    knightMoves([0,0], [3,3]);
+    // Output:
+    // => You made it in 2 moves! Here's your path:
+    // [0,0]
+    // [2,1]
+    // [3,3]
+
+
