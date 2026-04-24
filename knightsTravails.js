@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 
-function knightMoves(start = [0, 0], end = [7,7]) {
+function knightMoves(start, end) {
+    let count = 0;
     if (start[0] === end[0] && start[1] === end[1]) {
-        return [start]
+        return console.log("Start and end position cannot be the same!")
     };
     class Move {
         constructor(current, path) {
@@ -14,6 +15,7 @@ function knightMoves(start = [0, 0], end = [7,7]) {
     const pair = new Move(start, [start]);
     let queue = [pair];
     while (true) {
+        count += 1;
         let newQueue = [];
         for (const i of queue) {
             const eachMoveArr = eachMove(i.current);
@@ -26,7 +28,11 @@ function knightMoves(start = [0, 0], end = [7,7]) {
                     noRepeatvertex.add(str);
                     newQueue.push(pair);
                     if (j[0] === end[0] && j[1] === end[1]) {
-                        return pair.path
+                        console.log(` You made it in ${count} moves!  Here's your path:`);
+                        pair.path.forEach(step => {
+                            console.log(`  [${step[0]},${step[1]}]`);
+                        });
+                        return;
                     };
                 };
             }
@@ -48,5 +54,4 @@ function knightMoves(start = [0, 0], end = [7,7]) {
     }
 }
 
-const printMoves = knightMoves();
-console.log(printMoves)
+knightMoves([0,0], [7,7]);
