@@ -1,31 +1,37 @@
 #!/usr/bin/env node
 
-function knightMoves(start = [0, 0], end = [7,7]) {
+function knightMoves(start = [0, 0], end = [0,0]) {
     if (start[0] === end[0] && start[1] === end[1]) {
         return [start]
     };
-    let queue = [start];
+    class Move {
+        constructor(current, path) {
+            this.current = current;
+            this.path = path;
+        }
+    };
+    const pair = new Move(start, [start]);
+    let queue = [pair];
     const noRepeatvertex = [start];
     while (true) {
         let newQueue = [];
         for (const i of queue) {
-            const eachMoveArr = eachMove(i);
+            const eachMoveArr = eachMove(i.current);
             for (const j of eachMoveArr) {
-                if (j[0] === end[0] && j[1] === end[1]) {
-                    const previousMove = knightMoves(start, i);
-                    let printPath = [];
-                    for (const k of previousMove) {
-                        printPath.push(k);
-                    };
-                    printPath.push(end);
-                    return printPath
-
-                };
-                const exists = noRepeatvertex.some(arr => arr[0] === j[0] && arr[1] === j[1]);
+                
+                const exists = noRepeatvertex.some(item =>
+                    JSON.stringify(item.current) === JSON.stringify(j)
+                );
                 if (exists === false) {
-                    noRepeatvertex.push(j);
-                    newQueue.push(j)
-                }
+                    const updatePath = [...i.path];
+                    const pair = new Move(j, updatePath);
+                    pair.path.push(j);
+                    noRepeatvertex.push(pair);
+                    newQueue.push(pair)
+                    if (j[0] === end[0] && j[1] === end[1]) {
+                        return pair
+                    };
+                };
             }
         }
         queue = newQueue
